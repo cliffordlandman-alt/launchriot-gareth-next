@@ -17,7 +17,7 @@ function vDocs(){return head('Documents','Upload files once, find them again by 
 const TY={task:['Tasks','tasks'],event:['Events','calendar'],note:['Notes','notes'],contact:['Contacts','contacts'],followup:['Follow-ups','followups'],document:['Documents','documents']};
 function vSearch(){const r=D.res;let h=head('Search','One box for tasks, events, notes, contacts, follow-ups and documents.')+`<form class="card row" id="sr-form"><input id="sr-q" type="search" required minlength="2" placeholder="Search everything" aria-label="Search everything" value="${esc(D.sq)}" style="flex:1;min-width:160px"><button class="btn">Search</button></form>`;
  if(D.sbusy)h+='<div class="card empty">Searching…</div>';
- else if(r){const items=arr(r);h+=items.length?Object.keys(TY).filter(t=>items.some(i=>i.type==t)).map(t=>`<div class="card"><h2>${TY[t][0]}</h2>${items.filter(i=>i.type==t).map(i=>`<a class="item srhit" href="#/${TY[t][1]}"><div class="t">${esc(i.title||'(untitled)')}</div>${i.snippet?`<div class="mut sm">${esc(String(i.snippet).slice(0,160))}</div>`:''}</a>`).join('')}</div>`).join(''):`<div class="card empty">Nothing found for “${esc(r.query||D.sq)}”.</div>`}
+ else if(r){const items=arr(r);h+=items.length?Object.keys(TY).filter(t=>items.some(i=>i.type==t)).map(t=>`<div class="card"><h2>${TY[t][0]}</h2>${items.filter(i=>i.type==t).map(i=>`<button class="item srhit" data-sr-open="${esc(t)}" data-sr-id="${esc(i.id)}"><div class="t">${esc(i.title||'(untitled)')}</div>${i.snippet?`<div class="mut sm">${esc(String(i.snippet).slice(0,160))}</div>`:''}</button>`).join('')}</div>`).join(''):`<div class="card empty">Nothing found for “${esc(r.query||D.sq)}”.</div>`}
  return h}
 W.view('documents','Documents',vDocs,'overview');W.view('search','Search',vSearch,'overview');
 async function blob(id,inline){const r=await fetch(B+'/documents/'+E(id)+'/download'+(inline?'?inline=1':''),{credentials:'include',headers:tok()?{Authorization:'Bearer '+tok()}:{}});if(!r.ok)throw new Error(r.status);return r.blob()}
@@ -34,4 +34,19 @@ document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-dc
 let t;document.addEventListener('input',ev=>{if(ev.target.id=='dc-q'){D.q=ev.target.value;clearTimeout(t);t=setTimeout(async()=>{D.busy=false;await refresh();const i=document.getElementById('dc-q');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}},300)}});
 document.addEventListener('submit',async ev=>{if(ev.target.id!='sr-form')return;ev.preventDefault();const q=document.getElementById('sr-q').value.trim();if(q.length<2)return;D.sq=q;D.sbusy=true;W.render();
  try{D.res=await api('/search?q='+E(q)+'&limit=10')}catch(e){D.res=null;toast('Search failed ('+(e.status||'offline')+')')}D.sbusy=false;W.render()});
+
+// open the exact item a search hit points at
+const OPEN={task:['data-ws-tedit','/tasks/'],note:['data-ws-nedit','/notes/'],contact:['data-cf-copen','/contacts/'],followup:['data-cf-fedit','/followups/'],document:['data-dc-view','/documents/']};
+function fake(attr,id){const b=document.createElement('button');b.setAttribute(attr,id);b.style.display='none';document.body.appendChild(b);b.click();b.remove()}
+function generic(type,x){const f=(l,v)=>v?`<div class="sm"><span class="mut">${l}:</span> ${esc(v)}</div>`:'';const when=x.starts_at||x.deadline||x.follow_up_date;
+ W.modal(`<div class="cdet"><h2>${esc(x.title||x.name||x.subject||x.filename||'Item')}</h2>${f('Type',TY[type][0].replace(/s$/,''))}${f('When',when?W.dl(when)+' '+W.tm(when):'')}${f('Where',x.location)}${f('Details',x.details||x.notes||x.body||x.description)}${f('Status',x.status)}<div class="row" style="margin-top:12px"><a class="btn alt" href="#/${TY[type][1]}" data-ws-x style="text-decoration:none">Open ${esc(TY[type][0])}</a><button class="btn alt" data-ws-x>Close</button></div></div>`,'Item')}
+document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-sr-open]');if(!b)return;const type=b.dataset.srOpen,id=b.dataset.srId;
+ const base={task:'/tasks/',event:'/events/',note:'/notes/',contact:'/contacts/',followup:'/followups/',document:'/documents/'}[type];let x=null;try{x=await api(base+E(id))}catch(e){return toast('That item no longer exists')}
+ x=x.contact||x.item||x;
+ if(type=='document'){D.docs.find(d=>String(d.id)==String(id))||D.docs.push(x)}
+ const o=OPEN[type];
+ if(o){if(type=='task'&&!(S.ws&&S.ws.tasks.some(t=>String(t.id)==String(id))))S.ws&&S.ws.tasks.push(x);if(type=='note'&&!(S.ws&&S.ws.notes.some(t=>String(t.id)==String(id))))S.ws&&S.ws.notes.push(x);if(type=='followup'){const L=(S.cf&&S.cf.f)||[];if(!L.some(t=>String(t.id)==String(id)))L.push(x)}
+  if(type=='document'){generic(type,x);const m=document.querySelector('.modal .row');if(m&&/\.(pdf|png|jpe?g|gif|webp)$/i.test(x.filename))m.insertAdjacentHTML('afterbegin',`<button class="btn" data-dc-view="${esc(id)}">View</button>`);m&&m.insertAdjacentHTML('afterbegin',`<button class="btn alt" data-dc-dl="${esc(id)}">Download</button>`);return}
+  fake(o[0],id);if(document.querySelector('.modal'))return}
+ generic(type,x)});
 })();

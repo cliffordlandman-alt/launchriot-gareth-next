@@ -30,5 +30,22 @@ a{color:var(--a)}
 .cdet{max-height:80vh;overflow:auto}
 @media(max-width:720px){.crow{flex-wrap:wrap}.addbar2,.addbar3{grid-template-columns:1fr}}
 .addbar4{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.addbar4 input[type=search]{flex:1;min-width:160px}
-.srhit{display:block;text-decoration:none;color:var(--ink)}.srhit:hover{background:rgba(130,230,186,.06)}
+.srhit{display:block;width:100%;text-align:left;font:inherit;border:0;border-bottom:1px solid var(--line);background:none;cursor:pointer;text-decoration:none;color:var(--ink)}.srhit:hover{background:rgba(130,230,186,.06)}
 .calm{text-align:center;padding:36px 20px}.calm h2{color:var(--a)}
+/* grouped navigation */
+.morebtn{background:none;border:0;font:inherit;font-weight:600;font-size:14px;color:var(--mut);padding:8px 14px;border-radius:999px;cursor:pointer}.morebtn:hover{background:rgba(130,230,186,.08);color:var(--ink)}.morebtn.on{background:var(--a);color:#0b1511}
+#bbar{display:none}
+#morep{position:fixed;z-index:60;top:64px;right:20px;width:min(560px,calc(100vw - 24px));max-height:calc(100vh - 90px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 20px 50px rgba(0,0,0,.5);display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px}
+#morep[hidden]{display:none}
+#morep h4{margin:6px 0 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+#morep a{display:block;padding:9px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:600}#morep a:hover{background:rgba(130,230,186,.08)}#morep a.on{background:var(--a);color:#0b1511}
+@media(max-width:720px){
+ nav#nav{display:none}.top{position:static}
+ body{padding-bottom:64px}
+ #bbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;height:60px;background:#0c0e11;border-top:1px solid var(--line)}
+ #bbar .bb{flex:1;display:flex;align-items:center;justify-content:center;background:none;border:0;font:inherit;font-weight:600;font-size:13px;color:var(--mut);text-decoration:none;cursor:pointer}
+ #bbar .bb.on{color:var(--a);box-shadow:inset 0 3px 0 var(--a)}
+ #morep{top:auto;left:0;right:0;bottom:60px;width:auto;max-height:70vh;border-radius:16px 16px 0 0;grid-template-columns:1fr 1fr}
+ .fab{bottom:74px;right:12px;padding:12px 16px}
+ .foot{padding-bottom:28px}
+}
