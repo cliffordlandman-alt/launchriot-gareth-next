@@ -16,7 +16,7 @@ async function refresh(){if(!S.authed||D.busy)return;D.busy=true;
  if(!document.querySelector('.modal'))W.render()}
 W.onLoad(async()=>{if(!D.loaded)refresh()});
 async function act(fn,msg){try{await fn();if(msg)toast(msg);D.busy=false;await refresh();return true}catch(e){toast('Could not save ('+(e.status||'offline')+'). Nothing was changed.');return false}}
-const head=(t,s)=>`<h1>${t}</h1><p class="sub">${s}</p>${W.gate()}`;
+const head=(t,s)=>`<h1>${t}</h1><p class="sub">${s}</p>${!S.authed?'<div class="notice">Sign in to use your workspace. <button class="btn sm" data-act="login">Sign in</button></div>':!S.online?'<div class="notice">'+esc(S.err)+'</div>':''}`;
 const PR={low:'Low',normal:'Normal',high:'High',urgent:'Urgent'};
 // ---- Tasks ----
 function taskRow(t){const d=dueOf(t),done=t.status=='done';
