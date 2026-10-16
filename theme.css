@@ -29,3 +29,5 @@ a{color:var(--a)}
 .addbar2{display:grid;grid-template-columns:110px 1fr auto;gap:8px}.addbar3{display:grid;grid-template-columns:2fr 1.3fr 1.2fr 150px auto;gap:8px;align-items:center}
 .cdet{max-height:80vh;overflow:auto}
 @media(max-width:720px){.crow{flex-wrap:wrap}.addbar2,.addbar3{grid-template-columns:1fr}}
+.addbar4{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.addbar4 input[type=search]{flex:1;min-width:160px}
+.srhit{display:block;text-decoration:none;color:var(--ink)}.srhit:hover{background:rgba(130,230,186,.06)}
