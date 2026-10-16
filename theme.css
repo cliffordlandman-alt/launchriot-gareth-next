@@ -1,0 +1,27 @@
+/* Mint on near-black. Overrides exec.css. */
+:root{--ink:#e9eef0;--mut:#8f9aa3;--bg:#101216;--card:#171a20;--line:#262b33;--a:#82e6ba;--mint:#82e6ba}
+body{background:#101216;color:var(--ink)}
+.top{background:#0c0e11;border-bottom:1px solid var(--line);color:var(--ink)}.brand{color:var(--ink)}
+.brand img{background:none;padding:0}.tagp{color:var(--mut);opacity:1}
+nav a{color:var(--mut)}nav a:hover{background:rgba(130,230,186,.08);color:var(--ink)}nav a.on{background:var(--a);color:#0b1511}
+.who{color:var(--mut)}
+.card,.tile{background:var(--card);border-color:var(--line);color:var(--ink)}.tile:hover{border-color:var(--a)}
+.btn{background:var(--a);border-color:var(--a);color:#0b1511}.btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}.btn.alt:hover{border-color:var(--a)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+input,select,textarea{background:#0f1115;color:var(--ink);border-color:var(--line)}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--a)}
+::placeholder{color:#66707a}
+.pill{background:rgba(130,230,186,.14);color:var(--a)}.pill.warn{background:#3a2e12;color:#f0c36a}.pill.ok{background:rgba(130,230,186,.14);color:var(--a)}
+.item a,.focus .n{color:var(--a)}.why b{color:var(--ink)}
+.notice{background:#1b1f26;border-color:var(--line);color:var(--ink)}
+.bubble{background:#0f1115;color:var(--ink)}.arthur{background:linear-gradient(135deg,#141a1a,#12201c);color:var(--ink);border:1px solid var(--line)}
+.fab{background:var(--a);color:#0b1511}.foot{background:#0c0e11;color:var(--mut);border-top:1px solid var(--line)}
+#toast{background:#222831;color:var(--ink);border:1px solid var(--line)}
+.modal{background:rgba(5,7,9,.8)}.modal form,.modal .box{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.tbl th,.tbl td{border-color:var(--line)}
+a{color:var(--a)}
+.trow{display:flex;gap:12px;align-items:center}.trow .tx{flex:1;min-width:0}.late{color:#ff8a7a}
+.addbar{display:grid;grid-template-columns:1fr 150px auto;gap:8px;align-items:center}
+.seg{margin-bottom:12px}
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}.note{margin:0}.note p{color:var(--mut);margin:6px 0 8px;overflow-wrap:anywhere}
+@media(max-width:720px){.addbar{grid-template-columns:1fr}.trow{flex-wrap:wrap}.trow .row{width:100%;padding-left:32px}}
