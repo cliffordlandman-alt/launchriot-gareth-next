@@ -67,7 +67,7 @@ document.addEventListener('input',ev=>{if(ev.target.id=='cf-q'){D.q=ev.target.va
 const tg=v=>v.split(',').map(s=>s.trim()).filter(Boolean);
 document.addEventListener('submit',async ev=>{const f=ev.target;
  if(f.id=='cf-cform'){ev.preventDefault();const id=f.dataset.id,b={name:f.name.value.trim(),org:f.org.value.trim(),role:f.role.value.trim(),email:f.email.value.trim(),phone:f.phone.value.trim(),tags:tg(f.tags.value),notes:f.notes.value.trim()},k=FK.c;if(!b.email)delete b.email;
-  if(await act(()=>id?API.c.upd(id,b):API.c.add(b,k),'Contact saved')){FK.c=ref();f.closest('.modal').remove()}}
+  if(await act(()=>id?API.c.upd(id,b):API.c.add(b,k),'Contact saved')){FK.c=ref();f.closest('.modal')&&f.closest('.modal').remove();W.render()}}
  if(f.id=='cf-iform'){ev.preventDefault();const id=f.dataset.id,b={kind:f.kind.value,summary:f.summary.value.trim()};if(!b.summary)return;try{await API.c.log(id,b,FK.i);FK.i=ref();toast('Logged')}catch(e){return toast('Could not save ('+(e.status||'offline')+')')}D.busy=false;refresh();openDetail(id)}
  if(f.id=='cf-fform'){ev.preventDefault();const b={subject:f.subject.value.trim()};if(f.contact_id.value)b.contact_id=f.contact_id.value;if(f.person.value.trim())b.person=f.person.value.trim();if(f.date.value)b.follow_up_date=dIso(f.date.value);if(!b.subject)return;
   if(!b.contact_id&&!b.person)return toast('Pick a contact or type a name');if(await act(()=>API.f.add(b,FK.f),'Follow-up added')){f.reset();FK.f=ref()}}
