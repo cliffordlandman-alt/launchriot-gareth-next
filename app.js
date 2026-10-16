@@ -135,7 +135,7 @@ function start(){render();(async()=>{try{const me=await api('/auth/me');S.user=m
 setInterval(()=>{if(S.authed)load()},5*60*1000);
 (window.WN_READY||Promise.resolve()).then(()=>{if(document.readyState=='loading')addEventListener('DOMContentLoaded',start);else start()});
 // ---- extension API for feature modules (decisions.js, staff.js, ...) ----
-window.WN={nextMeeting,relatedTo,meetToday,meetWeek,loadCap,S,api,setTok,esc,fmt,dl,tm,dkey,todayK,days,ago,toast,render,load,gate,sec,safeUrl,mailLink,why,arr,TZ,
+window.WN={greet,nextMeeting,relatedTo,meetToday,meetWeek,loadCap,S,api,setTok,esc,fmt,dl,tm,dkey,todayK,days,ago,toast,render,load,gate,sec,safeUrl,mailLink,why,arr,TZ,
  view(id,label,fn,before){const i=before?NAV.findIndex(n=>n[0]==before):-1;const e=[id,label,fn];if(i<0)NAV.push(e);else NAV.splice(i,0,e)},
  onLoad(h){HOOKS.push(h)},
  modal(html,label){const d=document.createElement('div');d.className='modal';d.innerHTML='<div class="box" role="dialog" aria-label="'+esc(label)+'">'+html+'</div>';document.body.appendChild(d);d.addEventListener('click',e=>{if(e.target==d)d.remove()});const f=d.querySelector('input,textarea,select');f&&f.focus();return d},

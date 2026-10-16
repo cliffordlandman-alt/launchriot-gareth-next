@@ -31,3 +31,4 @@ a{color:var(--a)}
 @media(max-width:720px){.crow{flex-wrap:wrap}.addbar2,.addbar3{grid-template-columns:1fr}}
 .addbar4{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.addbar4 input[type=search]{flex:1;min-width:160px}
 .srhit{display:block;text-decoration:none;color:var(--ink)}.srhit:hover{background:rgba(130,230,186,.06)}
+.calm{text-align:center;padding:36px 20px}.calm h2{color:var(--a)}
